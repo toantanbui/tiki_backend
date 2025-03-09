@@ -6,6 +6,7 @@ import usersRoutes from './routes/usersRoutes'
 import admin from './routes/adminRoutes'
 const db = require('./config/db');
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 
 
@@ -27,10 +28,10 @@ app.use(cors(corsOrigin));
 
 
 // Middleware để xử lý dữ liệu từ form HTML
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
 // Middleware để xử lý dữ liệu JSON api
-app.use(express.json());
+app.use(bodyParser.json({ limit: '50mb' }))
 
 app.use('/', publicRoutes);
 app.use('/users', usersRoutes);

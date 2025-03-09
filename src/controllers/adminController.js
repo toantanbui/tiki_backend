@@ -120,6 +120,52 @@ let handleGetProductsId = async (req, res) => {
 
 }
 
+
+let handleGetProductsCategory1 = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await adminServices.handleGetProductsCategory1()
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+let handleGetProductsCategory2 = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await adminServices.handleGetProductsCategory2()
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+let handleGetProductsCategory3 = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await adminServices.handleGetProductsCategory3()
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
 module.exports = {
 
     handleGetAllUsers: handleGetAllUsers,
@@ -129,6 +175,9 @@ module.exports = {
     handleDeleteProducts: handleDeleteProducts,
     handleGetAllProducts: handleGetAllProducts,
     handleGetProductsCategory: handleGetProductsCategory,
-    handleGetProductsId: handleGetProductsId
+    handleGetProductsId: handleGetProductsId,
+    handleGetProductsCategory1: handleGetProductsCategory1,
+    handleGetProductsCategory2: handleGetProductsCategory2,
+    handleGetProductsCategory3: handleGetProductsCategory3
 
 }

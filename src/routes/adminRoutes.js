@@ -5,14 +5,19 @@ let router = express.Router();
 
 
 router.get('/get-all-users', adminController.handleGetAllUsers);
-router.delete('/delete-users', adminController.handleDeleteUsers);
+router.post('/delete-users', adminController.handleDeleteUsers);
 
 router.post('/create-products', adminController.handleCreateProducts);
 router.put('/update-products', adminController.handleUpdateProducts);
-router.delete('/delete-products', adminController.handleDeleteProducts);
+router.post('/delete-products', adminController.handleDeleteProducts);
 router.get('/get-all-products', adminController.handleGetAllProducts);
 router.post('/get-products-category', adminController.handleGetProductsCategory);
 router.post('/get-products-id', adminController.handleGetProductsId);
+
+
+router.get('/get-products-category-1', adminController.handleGetProductsCategory1);
+router.get('/get-products-category-2', adminController.handleGetProductsCategory2);
+router.get('/get-products-category-3', adminController.handleGetProductsCategory3);
 
 
 module.exports = router;

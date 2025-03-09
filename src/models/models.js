@@ -3,21 +3,38 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema1 = new Schema({
-    firstName: String,
-    lastName: String,
+    firstName: {
+        type: String,
+        default: ''
+    },
+    lastName: {
+        type: String,
+        default: ''
+    },
     email: String,
     password: String,
-    address: String,
+    address: {
+        type: String,
+        default: ''
+    },
     age: Number,
     role: {
         type: String,
         default: 'USERS'
     },
     gender: String,
+    phoneNumber: {
+        type: String,
+        default: ''
+    },
     avatar: Buffer,
 
-    phoneNumber: String,
+
     token: String,
+    time: {
+        type: Date,
+        default: Date.now
+    },
 
 
 }, { collection: 'tiki_object' },

@@ -107,6 +107,7 @@ let handleCreateProducts = async (data) => {
                 origin: data.origin,
                 weight: data.weight,
                 star: data.star,
+                description: data.description
 
 
             })
@@ -367,6 +368,145 @@ let handleGetProductsId = async (data) => {
 }
 
 
+let handleGetProductsCategory1 = async () => {
+    if (false) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+            let result = await models.Products.find({
+                category: 1
+            })
+
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+
+
+
+                return {
+                    errCode: 0,
+                    errMessage: "Get Success",
+                    data: result,
+
+                }
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "User Get failed"
+                }
+            }
+
+
+        } catch (e) {
+
+            return {
+                errCode: 2,
+                errMessage: "User Get failed"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+let handleGetProductsCategory2 = async () => {
+    if (false) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+            let result = await models.Products.find({
+                category: 2
+            })
+
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+
+
+
+                return {
+                    errCode: 0,
+                    errMessage: "Get Success",
+                    data: result,
+
+                }
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "User Get failed"
+                }
+            }
+
+
+        } catch (e) {
+
+            return {
+                errCode: 2,
+                errMessage: "User Get failed"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+let handleGetProductsCategory3 = async () => {
+    if (false) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+            let result = await models.Products.find({
+                category: 3
+            })
+
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+
+
+
+                return {
+                    errCode: 0,
+                    errMessage: "Get Success",
+                    data: result,
+
+                }
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "User Get failed"
+                }
+            }
+
+
+        } catch (e) {
+
+            return {
+                errCode: 2,
+                errMessage: "User Get failed"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
 
 
 
@@ -380,6 +520,9 @@ module.exports = {
     handleDeleteProducts: handleDeleteProducts,
     handleGetAllProducts: handleGetAllProducts,
     handleGetProductsCategory: handleGetProductsCategory,
-    handleGetProductsId: handleGetProductsId
+    handleGetProductsId: handleGetProductsId,
+    handleGetProductsCategory1: handleGetProductsCategory1,
+    handleGetProductsCategory2: handleGetProductsCategory2,
+    handleGetProductsCategory3: handleGetProductsCategory3
 
 }

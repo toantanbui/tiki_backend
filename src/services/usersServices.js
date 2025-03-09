@@ -124,6 +124,8 @@ let handleUpdateUsers = async (data) => {
                 age: data.age,
                 avatar: data.avatar,
                 gender: data.gender,
+                address: data.address,
+                phoneNumber: data.phoneNumber
             })
 
             console.log('result la ', result, !_.isEmpty(result))
