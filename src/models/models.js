@@ -80,5 +80,44 @@ const schema2 = new Schema({
 const Products = mongoose.model('Products', schema2);
 
 
+const schema3 = new Schema({
+    status: {
+        type: Number,
+        default: 1
 
-module.exports = { Users, Products }
+    },
+    idProducts: String,
+    productName: String,
+    price: String,
+    avatar: Buffer,
+    quantily: {
+        type: Number,
+        default: 1
+    },
+    totalPrice: {
+        type: String,
+
+    },
+    shippingCost: String,
+    idUsers: {
+        type: String,
+
+    },
+
+    firstName: String,
+    lastName: String,
+    address: String,
+    phoneNumber: String,
+    email: String,
+
+
+
+
+},
+    { timestamps: true }
+)
+
+const Orders = mongoose.model('Orders', schema3);
+
+
+module.exports = { Users, Products, Orders }

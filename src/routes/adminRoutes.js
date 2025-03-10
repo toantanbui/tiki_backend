@@ -19,5 +19,8 @@ router.get('/get-products-category-1', adminController.handleGetProductsCategory
 router.get('/get-products-category-2', adminController.handleGetProductsCategory2);
 router.get('/get-products-category-3', adminController.handleGetProductsCategory3);
 
+router.post('/get-all-orders-status', adminController.handleGetAllOrdersStatus);
+router.put('/update-orders', adminController.handleUpdateOrders);
+
 
 module.exports = router;

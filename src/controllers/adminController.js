@@ -166,6 +166,39 @@ let handleGetProductsCategory3 = async (req, res) => {
 
 }
 
+
+let handleGetAllOrdersStatus = async (req, res) => {
+    try {
+        // console.log('req.body ', req.body)
+        let data = await adminServices.handleGetAllOrdersStatus(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+
+
+let handleUpdateOrders = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await adminServices.handleUpdateOrders(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
 module.exports = {
 
     handleGetAllUsers: handleGetAllUsers,
@@ -178,6 +211,8 @@ module.exports = {
     handleGetProductsId: handleGetProductsId,
     handleGetProductsCategory1: handleGetProductsCategory1,
     handleGetProductsCategory2: handleGetProductsCategory2,
-    handleGetProductsCategory3: handleGetProductsCategory3
+    handleGetProductsCategory3: handleGetProductsCategory3,
+    handleGetAllOrdersStatus: handleGetAllOrdersStatus,
+    handleUpdateOrders: handleUpdateOrders
 
 }

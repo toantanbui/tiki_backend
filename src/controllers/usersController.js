@@ -62,12 +62,46 @@ let handleGetUsers = async (req, res) => {
 }
 
 
+let handleCreateOrders = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleCreateOrders(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+
+let handleGetOrdersIdUsers = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleGetOrdersIdUsers(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+
 
 module.exports = {
     handleCreateUsers: handleCreateUsers,
     handleLoginUsers: handleLoginUsers,
     handleUpdateUsers: handleUpdateUsers,
     handleGetUsers: handleGetUsers,
+    handleCreateOrders: handleCreateOrders,
+    handleGetOrdersIdUsers: handleGetOrdersIdUsers
 
 
 }

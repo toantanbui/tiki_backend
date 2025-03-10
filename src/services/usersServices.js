@@ -57,7 +57,7 @@ let handleLoginUsers = async (data) => {
     if (!data.email || !data.password) {
         return {
             errCode: 1,
-            errMessage: "Missing paramater",
+            errMessage: "Thiếu tài khoản hoặc mật khẩu",
         }
     } else {
         try {
@@ -77,7 +77,7 @@ let handleLoginUsers = async (data) => {
 
                 return {
                     errCode: 0,
-                    errMessage: "Get Success",
+                    errMessage: "Đăng nhập thành công",
                     id: result[0]._id,
                     role: result[0].role,
                     token: token1
@@ -85,7 +85,7 @@ let handleLoginUsers = async (data) => {
             } else {
                 return {
                     errCode: 2,
-                    errMessage: "Wrong account or password"
+                    errMessage: "Sai tài khoản hoặc mật khẩu"
                 }
             }
 
@@ -205,10 +205,120 @@ let handleGetUsers = async (data) => {
 
 
 
+let handleCreateOrders = async (data) => {
+    if (!data.idProducts || !data.idUsers) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+
+            let result = await models.Orders.create({
+                status: data.status,
+                idProducts: data.idProducts,
+                productName: data.productName,
+                price: data.price,
+                avatar: data.avatar,
+                quantily: data.quantily,
+                totalPrice: data.quantily,
+                shippingCost: data.shippingCost,
+
+                idUsers: data.idUsers,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                address: data.address,
+                phoneNumber: data.phoneNumber,
+                email: data.email,
+
+
+            })
+
+            console.log('result la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+                return {
+                    errCode: 0,
+                    errMessage: "Create Success"
+                }
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "User creation failed"
+                }
+            }
+
+
+        } catch (e) {
+            return {
+                errCode: 2,
+                errMessage: "User creation failed"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+
+let handleGetOrdersIdUsers = async (data) => {
+    if (!data.idUsers) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+            let result = await models.Orders.find({
+                idUsers: data.idUsers,
+
+            })
+
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+
+
+
+                return {
+                    errCode: 0,
+                    errMessage: "Get Success",
+                    data: result,
+
+                }
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "User Get failed"
+                }
+            }
+
+
+        } catch (e) {
+            return {
+                errCode: 2,
+                errMessage: "User Get failed"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+
+
 module.exports = {
     handleCreateUsers: handleCreateUsers,
     handleLoginUsers: handleLoginUsers,
     handleUpdateUsers: handleUpdateUsers,
-    handleGetUsers: handleGetUsers
+    handleGetUsers: handleGetUsers,
+    handleCreateOrders: handleCreateOrders,
+    handleGetOrdersIdUsers: handleGetOrdersIdUsers
 
 }
