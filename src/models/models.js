@@ -109,6 +109,10 @@ const schema3 = new Schema({
     address: String,
     phoneNumber: String,
     email: String,
+    supplier: {
+        type: String,
+        default: 'NONE'
+    },
 
 
 

@@ -221,7 +221,7 @@ let handleCreateOrders = async (data) => {
                 price: data.price,
                 avatar: data.avatar,
                 quantily: data.quantily,
-                totalPrice: data.quantily,
+                totalPrice: data.totalPrice,
                 shippingCost: data.shippingCost,
 
                 idUsers: data.idUsers,
@@ -230,6 +230,7 @@ let handleCreateOrders = async (data) => {
                 address: data.address,
                 phoneNumber: data.phoneNumber,
                 email: data.email,
+                supplier: data.supplier
 
 
             })

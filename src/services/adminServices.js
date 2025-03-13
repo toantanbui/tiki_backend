@@ -506,8 +506,8 @@ let handleGetProductsCategory3 = async () => {
 
 }
 
-let handleGetAllOrdersStatus = async (data) => {
-    if (!data.status) {
+let handleGetAllOrdersStatus = async () => {
+    if (false) {
         return {
             errCode: 1,
             errMessage: "Missing paramater",
@@ -515,7 +515,7 @@ let handleGetAllOrdersStatus = async (data) => {
     } else {
         try {
             let result = await models.Orders.find({
-                status: data.status
+                status: { $in: [1, 2] }
             })
 
             console.log('result login la ', result, !_.isEmpty(result))

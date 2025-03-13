@@ -170,7 +170,7 @@ let handleGetProductsCategory3 = async (req, res) => {
 let handleGetAllOrdersStatus = async (req, res) => {
     try {
         // console.log('req.body ', req.body)
-        let data = await adminServices.handleGetAllOrdersStatus(req.body)
+        let data = await adminServices.handleGetAllOrdersStatus()
         return res.status(200).json(data)
 
     } catch (e) {
