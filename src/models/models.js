@@ -79,6 +79,10 @@ const schema2 = new Schema({
 
 const Products = mongoose.model('Products', schema2);
 
+const abc = schema2.path('productName').index({ text: true });
+console.log('gia trị abc', abc)
+
+Products.createIndexes();
 
 const schema3 = new Schema({
     status: {

@@ -517,6 +517,7 @@ let handleGetAllOrdersStatus = async () => {
             let result = await models.Orders.find({
                 status: { $in: [1, 2] }
             })
+                .sort({ createdAt: -1 })
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {

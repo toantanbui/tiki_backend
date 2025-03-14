@@ -277,6 +277,53 @@ let handleGetOrdersIdUsers = async (data) => {
                 idUsers: data.idUsers,
 
             })
+                .sort({ createdAt: -1 })
+
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+
+
+
+                return {
+                    errCode: 0,
+                    errMessage: "Get Success",
+                    data: result,
+
+                }
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "User Get failed"
+                }
+            }
+
+
+        } catch (e) {
+            return {
+                errCode: 2,
+                errMessage: "User Get failed"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+let handleSearchProducts = async (data) => {
+    if (!data.text) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+            let result = await models.Products.find({
+                $text: { $search: data.text }
+
+            })
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
@@ -320,6 +367,7 @@ module.exports = {
     handleUpdateUsers: handleUpdateUsers,
     handleGetUsers: handleGetUsers,
     handleCreateOrders: handleCreateOrders,
-    handleGetOrdersIdUsers: handleGetOrdersIdUsers
+    handleGetOrdersIdUsers: handleGetOrdersIdUsers,
+    handleSearchProducts: handleSearchProducts
 
 }
