@@ -1,9 +1,21 @@
 import adminServices from '../services/adminServices'
+import { checkAdmin } from '../utils/check'
 
 
 let handleGetAllUsers = async (req, res) => {
     try {
-        console.log('req.body ', req.body)
+
+        let check = await checkAdmin(req.user);
+        if (check) {
+            return res.status(401).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
+
+
+
+        console.log('req.user ', req.body, req.user)
         let data = await adminServices.handleGetAllUsers()
         return res.status(200).json(data)
 
@@ -18,6 +30,13 @@ let handleGetAllUsers = async (req, res) => {
 
 let handleDeleteUsers = async (req, res) => {
     try {
+        let check = await checkAdmin(req.user);
+        if (check) {
+            return res.status(401).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await adminServices.handleDeleteUsers(req.body)
         return res.status(200).json(data)
@@ -77,6 +96,13 @@ let handleDeleteProducts = async (req, res) => {
 }
 let handleGetAllProducts = async (req, res) => {
     try {
+        let check = await checkAdmin(req.user);
+        if (check) {
+            return res.status(401).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await adminServices.handleGetAllProducts()
         return res.status(200).json(data)
@@ -169,6 +195,13 @@ let handleGetProductsCategory3 = async (req, res) => {
 
 let handleGetAllOrdersStatus = async (req, res) => {
     try {
+        let check = await checkAdmin(req.user);
+        if (check) {
+            return res.status(401).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
         // console.log('req.body ', req.body)
         let data = await adminServices.handleGetAllOrdersStatus()
         return res.status(200).json(data)

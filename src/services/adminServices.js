@@ -379,6 +379,7 @@ let handleGetProductsCategory1 = async () => {
             let result = await models.Products.find({
                 category: 1
             })
+                .limit(10)
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
@@ -425,6 +426,7 @@ let handleGetProductsCategory2 = async () => {
             let result = await models.Products.find({
                 category: 2
             })
+                .limit(10)
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
@@ -471,6 +473,7 @@ let handleGetProductsCategory3 = async () => {
             let result = await models.Products.find({
                 category: 3
             })
+                .limit(10)
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {

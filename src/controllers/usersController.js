@@ -1,11 +1,21 @@
 import usersService from '../services/usersServices'
+import { checkEmail, checkPassword } from '../utils/check'
 
 
 let handleCreateUsers = async (req, res) => {
     try {
         console.log('req.body ', req.body)
-        let data = await usersService.handleCreateUsers(req.body)
-        return res.status(200).json(data)
+        let check = await checkEmail(req.body)
+        if (check) {
+            return res.status(200).json({
+                errCode: -10,
+                errMessage: "Email đã tồn tại"
+            })
+        } else {
+            let data = await usersService.handleCreateUsers(req.body)
+            return res.status(200).json(data)
+        }
+
 
     } catch (e) {
         return res.status(500).json({
@@ -48,6 +58,13 @@ let handleUpdateUsers = async (req, res) => {
 
 let handleGetUsers = async (req, res) => {
     try {
+        let check = await checkPassword(req.user)
+        if (check) {
+            return res.status(401).json({
+                errCode: 9,
+                errMessage: "Mật khẩu đã thay đổi"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleGetUsers(req.body)
         return res.status(200).json(data)
@@ -80,6 +97,14 @@ let handleCreateOrders = async (req, res) => {
 
 let handleGetOrdersIdUsers = async (req, res) => {
     try {
+        console.log('da chạy get order')
+        let check = await checkPassword(req.user)
+        if (check) {
+            return res.status(401).json({
+                errCode: 9,
+                errMessage: "Mật khẩu đã thay đổi"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleGetOrdersIdUsers(req.body)
         return res.status(200).json(data)

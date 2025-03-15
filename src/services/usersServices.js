@@ -1,7 +1,7 @@
 import models from '../models/models'
 const _ = require('lodash');
 import { createJWT } from "../middleware/JWTAction"
-
+import { checkPassword } from '../utils/check'
 
 
 let handleCreateUsers = async (data) => {
@@ -58,6 +58,7 @@ let handleLoginUsers = async (data) => {
         return {
             errCode: 1,
             errMessage: "Thiếu tài khoản hoặc mật khẩu",
+            data: []
         }
     } else {
         try {
@@ -80,12 +81,14 @@ let handleLoginUsers = async (data) => {
                     errMessage: "Đăng nhập thành công",
                     id: result[0]._id,
                     role: result[0].role,
-                    token: token1
+                    token: token1,
+                    data: []
                 }
             } else {
                 return {
                     errCode: 2,
-                    errMessage: "Sai tài khoản hoặc mật khẩu"
+                    errMessage: "Sai tài khoản hoặc mật khẩu",
+                    data: []
                 }
             }
 
@@ -325,23 +328,14 @@ let handleSearchProducts = async (data) => {
 
             })
 
-            console.log('result login la ', result, !_.isEmpty(result))
-            if (!_.isEmpty(result)) {
+            console.log('result login la ', result,)
+            return {
+                errCode: 0,
+                errMessage: "Get Success",
+                data: result,
 
-
-
-                return {
-                    errCode: 0,
-                    errMessage: "Get Success",
-                    data: result,
-
-                }
-            } else {
-                return {
-                    errCode: 2,
-                    errMessage: "User Get failed"
-                }
             }
+
 
 
         } catch (e) {
