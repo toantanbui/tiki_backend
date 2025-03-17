@@ -138,13 +138,14 @@ let handleUpdateUsers = async (data) => {
         }
     } else {
         try {
+            let hashPasswordFromBcrypt = await bcrypt.hashSync(data.password, salt);
 
             let result = await models.Users.updateOne(
                 {
                     _id: data.idUsers
                 }, {
                 // email: data.email,
-                password: data.password,
+                password: hashPasswordFromBcrypt,
                 firstName: data.firstName,
                 lastName: data.lastName,
                 age: data.age,
