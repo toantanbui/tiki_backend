@@ -1,7 +1,10 @@
 import models from '../models/models'
 const _ = require('lodash');
 import { createJWT } from "../middleware/JWTAction"
-import { checkPassword } from '../utils/check'
+import bcrypt from "bcryptjs";
+const salt = bcrypt.genSaltSync(10);
+
+
 
 
 let handleCreateUsers = async (data) => {
@@ -12,10 +15,12 @@ let handleCreateUsers = async (data) => {
         }
     } else {
         try {
+            let hashPasswordFromBcrypt = await bcrypt.hashSync(data.password, salt);
+            console.log('hashPassword ', hashPasswordFromBcrypt)
 
             let result = await models.Users.create({
                 email: data.email,
-                password: data.password,
+                password: hashPasswordFromBcrypt,
                 firstName: data.firstName,
                 lastName: data.lastName,
                 age: data.age,
@@ -40,8 +45,8 @@ let handleCreateUsers = async (data) => {
 
         } catch (e) {
             return {
-                errCode: 2,
-                errMessage: "User creation failed"
+                errCode: -1,
+                errMessage: "Lỗi server"
             }
 
         }
@@ -64,26 +69,44 @@ let handleLoginUsers = async (data) => {
         try {
             let result = await models.Users.find({
                 email: data.email,
-                password: data.password
+
             })
+
+
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
 
-                let token1 = await createJWT({
-                    email: data.email,
-                    password: data.password
-                })
+                //check là true hoặc false
+                let check = await bcrypt.compareSync(data.password, result[0].password);
+
+                console.log('check la ', check)
+
+                if (check) {
+
+                    let token1 = await createJWT({
+                        email: data.email,
+                        password: result[0].password
+                    })
 
 
-                return {
-                    errCode: 0,
-                    errMessage: "Đăng nhập thành công",
-                    id: result[0]._id,
-                    role: result[0].role,
-                    token: token1,
-                    data: []
+                    return {
+                        errCode: 0,
+                        errMessage: "Đăng nhập thành công",
+                        id: result[0]._id,
+                        role: result[0].role,
+                        token: token1,
+                        data: []
+                    }
+                } else {
+                    return {
+                        errCode: 2,
+                        errMessage: "Sai tài khoản hoặc mật khẩu",
+                        data: []
+                    }
+
                 }
+
             } else {
                 return {
                     errCode: 2,

@@ -28,10 +28,10 @@ const checkAdmin = async (data) => {
     })
 
     console.log('result login checkAdmin là  ', result)
-    if (_.isEmpty(result)) {
+    if (!_.isEmpty(result)) {
         return true;
     } else {
-        if (result[0].role !== 'ADMIN') {
+        if (result[0].role === 'ADMIN') {
             return true;
         }
     }
