@@ -78,11 +78,73 @@ const schema2 = new Schema({
 )
 
 const Products = mongoose.model('Products', schema2);
-
 const abc = schema2.path('productName').index({ text: true });
 console.log('gia trị abc', abc)
 
 Products.createIndexes();
+
+const schemaCm = new Schema({
+
+    idUsers: String,
+    firstName: String,
+    lastName: String,
+    avatar: Buffer,
+
+    time: {
+        type: Date,
+        default: Date.now
+    },
+
+
+    commentContent: String,
+    commentImage: Buffer,
+    likes: {
+        type: Number,
+        default: 0
+    },
+    likeStatus: [
+        {
+            idUsers: String,
+            status: Boolean
+        }
+    ],
+    comment1: [
+        {
+            idUsers: String,
+            firstName: String,
+            lastName: String,
+            avatar: Buffer,
+            time: {
+                type: Date,
+                default: Date.now
+            },
+
+
+            commentContent: String,
+            commentImage: Buffer,
+            likeStatus: [
+                {
+                    idUsers: String,
+                    status: Boolean
+                }
+            ]
+        }
+    ]
+
+
+
+},
+    { timestamps: true }
+)
+
+
+
+const Comment = mongoose.model('Comment', schemaCm);
+
+
+
+
+
 
 const schema3 = new Schema({
     status: {
