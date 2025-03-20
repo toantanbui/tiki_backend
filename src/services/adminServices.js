@@ -332,6 +332,7 @@ let handleGetProductsId = async (data) => {
             let result = await models.Products.find({
                 _id: data.idProducts
             })
+                .populate('comments')
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {

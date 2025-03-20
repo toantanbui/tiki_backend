@@ -14,5 +14,7 @@ router.post('/create-orders', usersController.handleCreateOrders);
 router.post('/get-orders-idUsers', checkUserJWT, usersController.handleGetOrdersIdUsers);
 router.post('/search-products', usersController.handleSearchProducts);
 
+router.post('/create-comment', usersController.handleCreateComment);
+
 
 module.exports = router;

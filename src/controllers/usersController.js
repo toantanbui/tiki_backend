@@ -134,6 +134,22 @@ let handleSearchProducts = async (req, res) => {
 }
 
 
+let handleCreateComment = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleCreateComment(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+
 
 module.exports = {
     handleCreateUsers: handleCreateUsers,
@@ -142,7 +158,9 @@ module.exports = {
     handleGetUsers: handleGetUsers,
     handleCreateOrders: handleCreateOrders,
     handleGetOrdersIdUsers: handleGetOrdersIdUsers,
-    handleSearchProducts: handleSearchProducts
+    handleSearchProducts: handleSearchProducts,
+
+    handleCreateComment: handleCreateComment
 
 
 }

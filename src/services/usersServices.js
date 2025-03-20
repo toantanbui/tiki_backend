@@ -8,10 +8,10 @@ const salt = bcrypt.genSaltSync(10);
 
 
 let handleCreateUsers = async (data) => {
-    if (!data.email || !data.password) {
+    if (!data.email || !data.password | !data.firstName || !data.lastName) {
         return {
             errCode: 1,
-            errMessage: "Missing paramater",
+            errMessage: "Thiếu thông tin đăng kí",
         }
     } else {
         try {
@@ -33,12 +33,12 @@ let handleCreateUsers = async (data) => {
             if (!_.isEmpty(result)) {
                 return {
                     errCode: 0,
-                    errMessage: "Create Success"
+                    errMessage: "Tạo tài khoản thành công"
                 }
             } else {
                 return {
-                    errCode: 2,
-                    errMessage: "User creation failed"
+                    errCode: -1,
+                    errMessage: "Lỗi server"
                 }
             }
 
@@ -138,14 +138,14 @@ let handleUpdateUsers = async (data) => {
         }
     } else {
         try {
-            let hashPasswordFromBcrypt = await bcrypt.hashSync(data.password, salt);
+            // let hashPasswordFromBcrypt = await bcrypt.hashSync(data.password, salt);
 
             let result = await models.Users.updateOne(
                 {
                     _id: data.idUsers
                 }, {
                 // email: data.email,
-                password: hashPasswordFromBcrypt,
+                // password: hashPasswordFromBcrypt,
                 firstName: data.firstName,
                 lastName: data.lastName,
                 age: data.age,
@@ -377,6 +377,69 @@ let handleSearchProducts = async (data) => {
 }
 
 
+let handleCreateComment = async (data) => {
+    if (!data.idProducts || !data.idUsers || !data.commentContent) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+
+            let result = await models.Comment.create({
+
+
+                idUsers: data.idUsers,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                avatar: data.avatar,
+                commentContent: data.commentContent,
+                commentImage: data.commentImage,
+
+
+            })
+
+            console.log('result la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+                let result1 = await models.Products.updateOne(
+                    {
+                        _id: data.idProducts
+                    }, {
+
+                    $push: { comments: result._id },
+
+                })
+
+
+                return {
+                    errCode: 0,
+                    errMessage: "Create Success"
+                }
+
+
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "User creation failed"
+                }
+            }
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi Server"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
 
 
 module.exports = {
@@ -386,6 +449,8 @@ module.exports = {
     handleGetUsers: handleGetUsers,
     handleCreateOrders: handleCreateOrders,
     handleGetOrdersIdUsers: handleGetOrdersIdUsers,
-    handleSearchProducts: handleSearchProducts
+    handleSearchProducts: handleSearchProducts,
+
+    handleCreateComment: handleCreateComment
 
 }

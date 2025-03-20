@@ -66,7 +66,8 @@ const schema2 = new Schema({
         default: 1
     },
     comments: [{
-        type: String
+        type: String,
+        ref: 'Comment'
     }],
     star: Number
 
@@ -84,6 +85,8 @@ console.log('gia trị abc', abc)
 Products.createIndexes();
 
 const schemaCm = new Schema({
+
+    idProducts: String,
 
     idUsers: String,
     firstName: String,
@@ -190,4 +193,4 @@ const schema3 = new Schema({
 const Orders = mongoose.model('Orders', schema3);
 
 
-module.exports = { Users, Products, Orders }
+module.exports = { Users, Products, Orders, Comment }
