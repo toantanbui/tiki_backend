@@ -332,7 +332,10 @@ let handleGetProductsId = async (data) => {
             let result = await models.Products.find({
                 _id: data.idProducts
             })
-                .populate('comments')
+                .populate({
+                    path: 'comments',
+                    options: { sort: { createdAt: -1 } } // Sắp xếp theo trường createdAt giảm dần
+                });
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {

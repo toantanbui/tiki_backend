@@ -440,6 +440,113 @@ let handleCreateComment = async (data) => {
 }
 
 
+let handleDeleteComment = async (data) => {
+    if (!data.idComment || !data.idUsers) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+
+
+            let result = await models.Comment.find({
+                _id: data.idComment,
+                idUsers: data.idUsers,
+
+            })
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+
+                let result1 = await models.Comment.deleteOne(
+                    {
+                        _id: data.idComment,
+                    }
+
+                )
+
+                return {
+                    errCode: 0,
+                    errMessage: "Delete Success",
+                    // data: result,
+
+                }
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "Delete failed"
+                }
+            }
+
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi server"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+let handleCreateComment1 = async (data) => {
+    if (!data.idComment || !data.idUsers || !data.commentContent) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+
+
+            let result = await models.Comment.updateOne(
+                {
+                    _id: data.idComment
+                }, {
+                $push: {
+                    comment1: {
+
+                        idUsers: data.idUsers,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+
+                        commentContent: data.commentContent,
+                        commentImage: data.commentImage,
+                    }
+
+                }
+            })
+            return {
+                errCode: 0,
+                errMessage: "Create Success"
+            }
+
+
+
+
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi Server"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
 
 
 module.exports = {
@@ -451,6 +558,9 @@ module.exports = {
     handleGetOrdersIdUsers: handleGetOrdersIdUsers,
     handleSearchProducts: handleSearchProducts,
 
-    handleCreateComment: handleCreateComment
+    handleCreateComment: handleCreateComment,
+    handleDeleteComment: handleDeleteComment,
+
+    handleCreateComment1: handleCreateComment1
 
 }

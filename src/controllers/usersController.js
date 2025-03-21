@@ -149,6 +149,37 @@ let handleCreateComment = async (req, res) => {
 
 }
 
+let handleDeleteComment = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleDeleteComment(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+
+let handleCreateComment1 = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleCreateComment1(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
 
 
 module.exports = {
@@ -160,7 +191,10 @@ module.exports = {
     handleGetOrdersIdUsers: handleGetOrdersIdUsers,
     handleSearchProducts: handleSearchProducts,
 
-    handleCreateComment: handleCreateComment
+    handleCreateComment: handleCreateComment,
+    handleDeleteComment: handleDeleteComment,
+
+    handleCreateComment1: handleCreateComment1
 
 
 }

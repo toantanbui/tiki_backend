@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken"
 const createJWT = (payload) => {
 
     let key = process.env.JWT_SECRET;
-    let options = { expiresIn: '1h' };
+    let options = { expiresIn: 60 * 60 };
     let token = null;
     try {
-        token = jwt.sign(payload, key);
+        token = jwt.sign(payload, key, options);
     } catch (err) {
         console.log(err)
     }
@@ -43,17 +43,17 @@ const checkUserJWT = async (req, res, next) => {
             next();
         } else {
             return res.status(401).json({
-                EC: -1,
-                DT: '',
-                EM: 'Not authenticated the user'
+                errCode: 3,
+                errMessage: "Not authenticated the user",
             })
         }
 
     } else {
         return res.status(401).json({
-            EC: -1,
-            DT: '',
-            EM: 'Not authenticated the user'
+            errCode: 3,
+            errMessage: "Not authenticated the user",
+
+
         })
     }
 
