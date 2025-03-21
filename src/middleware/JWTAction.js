@@ -4,7 +4,9 @@ import jwt from "jsonwebtoken"
 const createJWT = (payload) => {
 
     let key = process.env.JWT_SECRET;
+
     let options = { expiresIn: 60 * 60 };
+
     let token = null;
     try {
         token = jwt.sign(payload, key, options);
