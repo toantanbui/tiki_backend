@@ -105,12 +105,10 @@ const schemaCm = new Schema({
         type: Number,
         default: 0
     },
-    likeStatus: [
-        {
-            idUsers: String,
-            status: Boolean
-        }
-    ],
+    likeStatus: [{
+        type: String,
+        ref: 'likeStatus'
+    }],
     comment1: [
         {
             idUsers: String,
@@ -121,16 +119,17 @@ const schemaCm = new Schema({
                 type: Date,
                 default: Date.now
             },
-
+            likes: {
+                type: Number,
+                default: 0
+            },
 
             commentContent: String,
             commentImage: Buffer,
-            likeStatus: [
-                {
-                    idUsers: String,
-                    status: Boolean
-                }
-            ]
+            likeStatus: [{
+                type: String,
+                ref: 'likeStatus1'
+            }],
         }
     ]
 
@@ -144,7 +143,29 @@ const schemaCm = new Schema({
 
 const Comment = mongoose.model('Comment', schemaCm);
 
+const schemalikeStatus = new Schema({
+    idComment: String,
+    idUsers: String,
+    status: Boolean
 
+
+},
+    { timestamps: true }
+)
+
+const likeStatus = mongoose.model('likeStatus', schemalikeStatus);
+
+const schemalikeStatus1 = new Schema({
+    idComment1: String,
+    idUsers: String,
+    status: Boolean
+
+
+},
+    { timestamps: true }
+)
+
+const likeStatus1 = mongoose.model('likeStatus1', schemalikeStatus1);
 
 
 
@@ -193,4 +214,4 @@ const schema3 = new Schema({
 const Orders = mongoose.model('Orders', schema3);
 
 
-module.exports = { Users, Products, Orders, Comment }
+module.exports = { Users, Products, Orders, Comment, likeStatus, likeStatus1 }
