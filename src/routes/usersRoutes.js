@@ -14,10 +14,11 @@ router.post('/create-orders', usersController.handleCreateOrders);
 router.post('/get-orders-idUsers', checkUserJWT, usersController.handleGetOrdersIdUsers);
 router.post('/search-products', usersController.handleSearchProducts);
 
-router.post('/create-comment', usersController.handleCreateComment);
-router.post('/delete-comment', usersController.handleDeleteComment);
+router.post('/create-comment', checkUserJWT, usersController.handleCreateComment);
+router.post('/delete-comment', checkUserJWT, usersController.handleDeleteComment);
 
-router.post('/create-comment1', usersController.handleCreateComment1);
+router.post('/create-comment1', checkUserJWT, usersController.handleCreateComment1);
+router.post('/delete-comment1', checkUserJWT, usersController.handleDeleteComment1);
 
 
 module.exports = router;

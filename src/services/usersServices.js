@@ -515,6 +515,7 @@ let handleCreateComment1 = async (data) => {
                         idUsers: data.idUsers,
                         firstName: data.firstName,
                         lastName: data.lastName,
+                        avatar: data.avatar,
 
                         commentContent: data.commentContent,
                         commentImage: data.commentImage,
@@ -546,6 +547,51 @@ let handleCreateComment1 = async (data) => {
 
 }
 
+let handleDeleteComment1 = async (data) => {
+    if (!data.idComment || !data.idUsers || !data.idComment1) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+
+
+            let result = await models.Comment.updateOne(
+                {
+                    _id: data.idComment
+                }, {
+                $pull: {
+                    comment1: {
+                        _id: data.idComment1,
+                        idUsers: data.idUsers
+                    }
+                }
+            })
+            console.log('update la ', result)
+            return {
+                errCode: 0,
+                errMessage: "Create Success"
+            }
+
+
+
+
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi Server"
+            }
+
+        }
+
+
+    }
+
+
+}
 
 
 
@@ -561,6 +607,7 @@ module.exports = {
     handleCreateComment: handleCreateComment,
     handleDeleteComment: handleDeleteComment,
 
-    handleCreateComment1: handleCreateComment1
+    handleCreateComment1: handleCreateComment1,
+    handleDeleteComment1: handleDeleteComment1
 
 }

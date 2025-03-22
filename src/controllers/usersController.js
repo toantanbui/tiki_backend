@@ -180,6 +180,21 @@ let handleCreateComment1 = async (req, res) => {
 
 }
 
+let handleDeleteComment1 = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleDeleteComment1(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
 
 
 module.exports = {
@@ -194,7 +209,8 @@ module.exports = {
     handleCreateComment: handleCreateComment,
     handleDeleteComment: handleDeleteComment,
 
-    handleCreateComment1: handleCreateComment1
+    handleCreateComment1: handleCreateComment1,
+    handleDeleteComment1: handleDeleteComment1
 
 
 }
