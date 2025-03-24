@@ -594,6 +594,295 @@ let handleDeleteComment1 = async (data) => {
 }
 
 
+let handleCreateLikeComment = async (data) => {
+    if (!data.idComment || !data.idUsers) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+
+            let result = await models.likeStatus.find({
+                idUsers: data.idUsers,
+                idComment: data.idComment
+
+            })
+
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+                if (data.status === 'true') {
+
+                    await models.likeStatus.updateOne(
+                        {
+                            idUsers: data.idUsers,
+                            idComment: data.idComment
+                        }, {
+
+                        status: true
+
+                    })
+
+                    await models.Comment.updateOne(
+                        {
+                            _id: data.idComment
+                        }, {
+
+                        $inc: { likes: 1 }
+
+                    })
+
+
+                    return {
+                        errCode: 0,
+                        errMessage: "Tăng like"
+                    }
+
+
+
+
+                } else {
+
+
+                    await models.likeStatus.updateOne(
+                        {
+                            idUsers: data.idUsers,
+                            idComment: data.idComment
+                        }, {
+
+                        status: false
+
+                    })
+
+                    await models.Comment.updateOne(
+                        {
+                            _id: data.idComment
+                        }, {
+
+                        $inc: { likes: -1 }
+
+                    })
+
+
+                    return {
+                        errCode: 0,
+                        errMessage: "Giam like"
+                    }
+
+
+                }
+
+
+
+
+            } else {
+                let result1 = await models.likeStatus.create({
+                    idComment: data.idComment,
+                    idUsers: data.idUsers,
+                    status: true,
+
+                })
+                if (!_.isEmpty(result1)) {
+
+                    await models.Comment.updateOne(
+                        {
+                            _id: data.idComment
+                        }, {
+
+                        $push: { likeStatus: result1._id },
+                        $inc: { likes: 1 }
+                    })
+
+                    return {
+                        errCode: 0,
+                        errMessage: "Lần đầu tạo like"
+                    }
+
+                }
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi Server"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+let handleCreateLikeComment1 = async (data) => {
+    if (!data.idComment || !data.idComment1 || !data.idUsers) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+
+            let result = await models.likeStatus1.find({
+                idUsers: data.idUsers,
+                idComment1: data.idComment1
+
+            })
+
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+                if (data.status === 'true') {
+
+                    await models.likeStatus1.updateOne(
+                        {
+                            idUsers: data.idUsers,
+                            idComment1: data.idComment1
+                        }, {
+
+                        status: true
+
+                    })
+
+                    await models.Comment.updateOne(
+                        {
+                            _id: data.idComment,
+                            "comment1._id": data.idComment1
+
+                        }, {
+
+                        $inc: { "comment1.$.likes": 1 }
+
+                    },
+
+                    )
+
+
+                    return {
+                        errCode: 0,
+                        errMessage: "Tăng like"
+                    }
+
+
+
+
+                } else {
+
+
+                    await models.likeStatus1.updateOne(
+                        {
+                            idUsers: data.idUsers,
+                            idComment1: data.idComment1
+                        }, {
+
+                        status: false
+
+                    })
+
+                    await models.Comment.updateOne(
+                        {
+                            _id: data.idComment,
+                            "comment1._id": data.idComment1
+
+                        }, {
+
+                        $inc: { "comment1.$.likes": -1 }
+
+                    },
+
+                    )
+
+
+                    return {
+                        errCode: 0,
+                        errMessage: "Giam like"
+                    }
+
+
+                }
+
+
+
+
+            } else {
+                let result1 = await models.likeStatus1.create({
+                    idComment1: data.idComment1,
+                    idUsers: data.idUsers,
+                    status: true,
+
+                })
+                if (!_.isEmpty(result1)) {
+
+
+                    await models.Comment.updateOne(
+                        {
+                            _id: data.idComment,
+                            "comment1._id": data.idComment1
+
+                        }, {
+                        $push: {
+                            "comment1.$.likeStatus": result1._id,
+
+                        },
+                        $inc: { "comment1.$.likes": 1 }
+
+                    },
+
+                    )
+
+                    return {
+                        errCode: 0,
+                        errMessage: "Lần đầu tạo like"
+                    }
+
+                }
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi Server"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+
 
 module.exports = {
     handleCreateUsers: handleCreateUsers,
@@ -608,6 +897,9 @@ module.exports = {
     handleDeleteComment: handleDeleteComment,
 
     handleCreateComment1: handleCreateComment1,
-    handleDeleteComment1: handleDeleteComment1
+    handleDeleteComment1: handleDeleteComment1,
+
+    handleCreateLikeComment: handleCreateLikeComment,
+    handleCreateLikeComment1: handleCreateLikeComment1
 
 }

@@ -11,7 +11,7 @@ router.post('/delete-users', checkUserJWT, adminController.handleDeleteUsers);
 router.post('/create-products', checkUserJWT, adminController.handleCreateProducts);
 router.put('/update-products', checkUserJWT, adminController.handleUpdateProducts);
 router.post('/delete-products', checkUserJWT, adminController.handleDeleteProducts);
-router.get('/get-all-products', checkUserJWT, adminController.handleGetAllProducts);
+router.get('/get-all-products', adminController.handleGetAllProducts);
 router.post('/get-products-category', adminController.handleGetProductsCategory);
 router.post('/get-products-id', adminController.handleGetProductsId);
 

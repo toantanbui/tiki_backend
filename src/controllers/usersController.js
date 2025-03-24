@@ -195,6 +195,36 @@ let handleDeleteComment1 = async (req, res) => {
 
 }
 
+let handleCreateLikeComment = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleCreateLikeComment(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+let handleCreateLikeComment1 = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleCreateLikeComment1(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
 
 
 module.exports = {
@@ -210,7 +240,10 @@ module.exports = {
     handleDeleteComment: handleDeleteComment,
 
     handleCreateComment1: handleCreateComment1,
-    handleDeleteComment1: handleDeleteComment1
+    handleDeleteComment1: handleDeleteComment1,
+
+    handleCreateLikeComment: handleCreateLikeComment,
+    handleCreateLikeComment1: handleCreateLikeComment1
 
 
 }

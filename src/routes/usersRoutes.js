@@ -20,5 +20,8 @@ router.post('/delete-comment', checkUserJWT, usersController.handleDeleteComment
 router.post('/create-comment1', checkUserJWT, usersController.handleCreateComment1);
 router.post('/delete-comment1', checkUserJWT, usersController.handleDeleteComment1);
 
+router.post('/create-likeComment', usersController.handleCreateLikeComment);
+router.post('/create-likeComment1', usersController.handleCreateLikeComment1);
+
 
 module.exports = router;

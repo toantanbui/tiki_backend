@@ -329,13 +329,54 @@ let handleGetProductsId = async (data) => {
         }
     } else {
         try {
+            // let result = await models.Products.find({
+            //     _id: data.idProducts
+            // })
+            //     .populate({
+            //         path: 'comments',
+            //         populate: {
+            //             path: 'comment1.likeStatus',
+            //             options: { limit: 1 }
+
+            //         },
+
+            //     })
+            //     .populate({
+            //         path: 'comments',
+            //         populate: {
+            //             path: 'likeStatus',
+
+
+            //         },
+            //         options: { sort: { createdAt: -1 }, limit: 7 } // Sắp xếp theo trường createdAt giảm dần
+            //     })
+            let number = 5;
+            if (data.number !== undefined) {
+                number = data.number
+            }
+
+
             let result = await models.Products.find({
                 _id: data.idProducts
             })
                 .populate({
                     path: 'comments',
-                    options: { sort: { createdAt: -1 } } // Sắp xếp theo trường createdAt giảm dần
+                    populate: [
+                        {
+                            path: 'comment1.likeStatus',
+                            // options: { sort: { createdAt: -1 }, limit: 7 }
+                        },
+                        {
+                            path: 'likeStatus',
+
+                        }
+                    ],
+                    options: { sort: { createdAt: -1 }, limit: number }
                 });
+
+
+
+
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {

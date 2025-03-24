@@ -96,13 +96,13 @@ let handleDeleteProducts = async (req, res) => {
 }
 let handleGetAllProducts = async (req, res) => {
     try {
-        let check = await checkAdmin(req.user);
-        if (!check) {
-            return res.status(401).json({
-                errCode: 10,
-                errMessage: "Bạn không phải admin"
-            })
-        }
+        // let check = await checkAdmin(req.user);
+        // if (!check) {
+        //     return res.status(401).json({
+        //         errCode: 10,
+        //         errMessage: "Bạn không phải admin"
+        //     })
+        // }
         console.log('req.body ', req.body)
         let data = await adminServices.handleGetAllProducts()
         return res.status(200).json(data)
