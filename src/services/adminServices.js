@@ -231,7 +231,7 @@ let handleDeleteProducts = async (data) => {
 
 }
 
-let handleGetAllProducts = async () => {
+let handleGetAllProducts = async (data) => {
     if (false) {
         return {
             errCode: 1,
@@ -239,11 +239,25 @@ let handleGetAllProducts = async () => {
         }
     } else {
         try {
+            let number_limit = 5
+            let number_skip = 0
+            // if (data.number_limit !== undefined) {
+            //     number_limit = data.number_limit
+            // }
+
+            if (data.number_skip !== undefined) {
+                number_skip = data.number_skip
+            }
+            console.log('limit, skip', number_limit, number_skip)
+
             let result = await models.Products.find({
-            })
+            }).sort({ createdAt: -1 })
+                .skip(number_skip)
+                .limit(number_limit)
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
+                let lenght_data = await models.Products.countDocuments();
 
 
 
@@ -251,6 +265,7 @@ let handleGetAllProducts = async () => {
                     errCode: 0,
                     errMessage: "Get Success",
                     data: result,
+                    lenght_data: lenght_data
 
                 }
             } else {
@@ -283,19 +298,33 @@ let handleGetProductsCategory = async (data) => {
         }
     } else {
         try {
+            let number_limit = 2
+            let number_skip = 0
+
+            if (data.number_skip !== undefined) {
+                number_skip = data.number_skip
+            }
             let result = await models.Products.find({
                 category: data.category
             })
+                .sort({ createdAt: -1 })
+                .skip(number_skip)
+                .limit(number_limit)
+
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
 
-
+                let lenght_data = await models.Products.countDocuments({
+                    category: data.category
+                });
 
                 return {
                     errCode: 0,
                     errMessage: "Get Success",
                     data: result,
+                    lenght_data: lenght_data
+
 
                 }
             } else {
@@ -381,12 +410,16 @@ let handleGetProductsId = async (data) => {
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
 
+                let lenght_data = await models.Comment.countDocuments({
+                    idProducts: data.idProducts
+                });
 
 
                 return {
                     errCode: 0,
                     errMessage: "Get Success",
                     data: result,
+                    lenght_data: lenght_data
 
                 }
             } else {

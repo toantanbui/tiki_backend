@@ -104,7 +104,7 @@ let handleGetAllProducts = async (req, res) => {
         //     })
         // }
         console.log('req.body ', req.body)
-        let data = await adminServices.handleGetAllProducts()
+        let data = await adminServices.handleGetAllProducts(req.body)
         return res.status(200).json(data)
 
     } catch (e) {

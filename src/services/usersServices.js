@@ -347,16 +347,29 @@ let handleSearchProducts = async (data) => {
         }
     } else {
         try {
+            let number_limit = 5
+            let number_skip = 0
+
+            if (data.number_skip !== undefined) {
+                number_skip = data.number_skip
+            }
             let result = await models.Products.find({
                 $text: { $search: data.text }
 
             })
+                .sort({ createdAt: -1 })
+                .skip(number_skip)
+                .limit(number_limit)
+            let lenght_data = await models.Products.countDocuments({
+                $text: { $search: data.text }
+            });
 
             console.log('result login la ', result,)
             return {
                 errCode: 0,
                 errMessage: "Get Success",
                 data: result,
+                lenght_data: lenght_data
 
             }
 
@@ -388,7 +401,7 @@ let handleCreateComment = async (data) => {
 
             let result = await models.Comment.create({
 
-
+                idProducts: data.idProducts,
                 idUsers: data.idUsers,
                 firstName: data.firstName,
                 lastName: data.lastName,
