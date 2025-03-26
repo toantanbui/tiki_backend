@@ -267,7 +267,7 @@ let handleCreateOrders = async (data) => {
         try {
             let avatar = ''
             if (data.avatar) {
-                avatar = uploadFile(data.avatar)
+                avatar = await uploadFile(data.avatar)
             }
 
             let result = await models.Orders.create({
@@ -300,15 +300,15 @@ let handleCreateOrders = async (data) => {
             } else {
                 return {
                     errCode: 2,
-                    errMessage: "User creation failed"
+                    errMessage: "creation failed"
                 }
             }
 
 
         } catch (e) {
             return {
-                errCode: 2,
-                errMessage: "User creation failed"
+                errCode: -1,
+                errMessage: "Lỗi server"
             }
 
         }
