@@ -265,17 +265,17 @@ let handleCreateOrders = async (data) => {
         }
     } else {
         try {
-            let avatar = ''
-            if (data.avatar) {
-                avatar = await uploadFile(data.avatar)
-            }
+            // let avatar = ''
+            // if (data.avatar) {
+            //     avatar = await uploadFile(data.avatar)
+            // }
 
             let result = await models.Orders.create({
                 status: data.status,
                 idProducts: data.idProducts,
                 productName: data.productName,
                 price: data.price,
-                avatar: avatar,
+                avatar: data.avatar,
                 quantily: data.quantily,
                 totalPrice: data.totalPrice,
                 shippingCost: data.shippingCost,
