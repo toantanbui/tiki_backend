@@ -1,5 +1,6 @@
 import usersService from '../services/usersServices'
-import { checkEmail, checkPassword } from '../utils/check'
+import { checkEmail } from '../utils/check'
+import { uploadFile } from '../utils/upload_image'
 
 
 let handleCreateUsers = async (req, res) => {
@@ -43,6 +44,9 @@ let handleLoginUsers = async (req, res) => {
 
 let handleUpdateUsers = async (req, res) => {
     try {
+
+        await uploadFile(req.body.avatar)
+
         console.log('req.body ', req.body)
         let data = await usersService.handleUpdateUsers(req.body)
         return res.status(200).json(data)
@@ -58,13 +62,7 @@ let handleUpdateUsers = async (req, res) => {
 
 let handleGetUsers = async (req, res) => {
     try {
-        let check = await checkPassword(req.user)
-        if (check) {
-            return res.status(401).json({
-                errCode: 9,
-                errMessage: "Mật khẩu đã thay đổi"
-            })
-        }
+
         console.log('req.body ', req.body)
         let data = await usersService.handleGetUsers(req.body)
         return res.status(200).json(data)
@@ -97,14 +95,8 @@ let handleCreateOrders = async (req, res) => {
 
 let handleGetOrdersIdUsers = async (req, res) => {
     try {
-        console.log('da chạy get order')
-        let check = await checkPassword(req.user)
-        if (check) {
-            return res.status(401).json({
-                errCode: 9,
-                errMessage: "Mật khẩu đã thay đổi"
-            })
-        }
+
+
         console.log('req.body ', req.body)
         let data = await usersService.handleGetOrdersIdUsers(req.body)
         return res.status(200).json(data)
@@ -225,6 +217,37 @@ let handleCreateLikeComment1 = async (req, res) => {
 
 }
 
+let handleRefreshToken = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleRefreshToken(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
+
+let handleLoginOut = async (req, res) => {
+    try {
+        console.log('req.body ', req.body)
+        let data = await usersService.handleLoginOut(req.body)
+        return res.status(200).json(data)
+
+    } catch (e) {
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: "server error"
+        })
+    }
+
+}
+
 
 
 module.exports = {
@@ -243,7 +266,10 @@ module.exports = {
     handleDeleteComment1: handleDeleteComment1,
 
     handleCreateLikeComment: handleCreateLikeComment,
-    handleCreateLikeComment1: handleCreateLikeComment1
+    handleCreateLikeComment1: handleCreateLikeComment1,
+
+    handleRefreshToken: handleRefreshToken,
+    handleLoginOut: handleLoginOut
 
 
 }

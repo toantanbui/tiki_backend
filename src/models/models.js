@@ -27,7 +27,7 @@ const schema1 = new Schema({
         type: String,
         default: ''
     },
-    avatar: Buffer,
+    avatar: String,
 
 
     token: String,
@@ -37,7 +37,7 @@ const schema1 = new Schema({
     },
 
 
-}, { collection: 'tiki_object' },
+}, { collection: 'tiki_users' },
     { timestamps: true }
 )
 
@@ -51,7 +51,7 @@ const schema2 = new Schema({
     },
     productName: String,
     price: String,
-    avatar: Buffer,
+    avatar: String,
     supplier: {
         type: String,
         default: 'NONE'
@@ -91,7 +91,7 @@ const schemaCm = new Schema({
     idUsers: String,
     firstName: String,
     lastName: String,
-    avatar: Buffer,
+    avatar: String,
 
     time: {
         type: Date,
@@ -100,7 +100,7 @@ const schemaCm = new Schema({
 
 
     commentContent: String,
-    commentImage: Buffer,
+    commentImage: String,
     likes: {
         type: Number,
         default: 0
@@ -114,7 +114,7 @@ const schemaCm = new Schema({
             idUsers: String,
             firstName: String,
             lastName: String,
-            avatar: Buffer,
+            avatar: String,
             time: {
                 type: Date,
                 default: Date.now
@@ -125,7 +125,7 @@ const schemaCm = new Schema({
             },
 
             commentContent: String,
-            commentImage: Buffer,
+            commentImage: String,
             likeStatus: [{
                 type: String,
                 ref: 'likeStatus1'
@@ -179,7 +179,7 @@ const schema3 = new Schema({
     idProducts: String,
     productName: String,
     price: String,
-    avatar: Buffer,
+    avatar: String,
     quantily: {
         type: Number,
         default: 1

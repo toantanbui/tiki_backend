@@ -1,8 +1,10 @@
 import models from '../models/models'
 const _ = require('lodash');
-import { createJWT } from "../middleware/JWTAction"
+import { createJWT_refresh_token, createJWT_access_token } from "../middleware/JWTAction"
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
+
+import { uploadFile } from '../utils/upload_image'
 
 
 
@@ -67,8 +69,10 @@ let handleLoginUsers = async (data) => {
         }
     } else {
         try {
+
             let result = await models.Users.find({
                 email: data.email,
+
 
             })
 
@@ -84,18 +88,35 @@ let handleLoginUsers = async (data) => {
 
                 if (check) {
 
-                    let token1 = await createJWT({
+                    let access_token = await createJWT_access_token({
+                        idUsers: result[0]._id,
                         email: data.email,
-                        password: result[0].password
+
                     })
 
+                    let refresh_token = await createJWT_refresh_token({
+                        idUsers: result[0]._id,
+                        email: data.email,
+
+                    })
+
+
+                    await models.Users.updateOne(
+                        {
+                            _id: result[0]._id
+                        }, {
+
+                        token: refresh_token,
+
+                    })
 
                     return {
                         errCode: 0,
                         errMessage: "Đăng nhập thành công",
                         id: result[0]._id,
                         role: result[0].role,
-                        token: token1,
+                        access_token: access_token,
+                        refresh_token: refresh_token,
                         data: []
                     }
                 } else {
@@ -139,6 +160,11 @@ let handleUpdateUsers = async (data) => {
     } else {
         try {
             // let hashPasswordFromBcrypt = await bcrypt.hashSync(data.password, salt);
+            let avatar = ''
+            if (data.avatar) {
+                avatar = await uploadFile(data.avatar)
+            }
+
 
             let result = await models.Users.updateOne(
                 {
@@ -149,7 +175,7 @@ let handleUpdateUsers = async (data) => {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 age: data.age,
-                avatar: data.avatar,
+                avatar: avatar,
                 gender: data.gender,
                 address: data.address,
                 phoneNumber: data.phoneNumber
@@ -194,7 +220,8 @@ let handleGetUsers = async (data) => {
             let result = await models.Users.find({
                 _id: data.idUsers,
 
-            })
+            }, { password: 0, token: 0 })
+
 
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
@@ -230,8 +257,6 @@ let handleGetUsers = async (data) => {
 }
 
 
-
-
 let handleCreateOrders = async (data) => {
     if (!data.idProducts || !data.idUsers) {
         return {
@@ -240,13 +265,17 @@ let handleCreateOrders = async (data) => {
         }
     } else {
         try {
+            let avatar = ''
+            if (data.avatar) {
+                avatar = uploadFile(data.avatar)
+            }
 
             let result = await models.Orders.create({
                 status: data.status,
                 idProducts: data.idProducts,
                 productName: data.productName,
                 price: data.price,
-                avatar: data.avatar,
+                avatar: avatar,
                 quantily: data.quantily,
                 totalPrice: data.totalPrice,
                 shippingCost: data.shippingCost,
@@ -399,6 +428,12 @@ let handleCreateComment = async (data) => {
     } else {
         try {
 
+
+            let commentImage = ''
+            if (data.commentImage) {
+                commentImage = await uploadFile(data.commentImage)
+            }
+
             let result = await models.Comment.create({
 
                 idProducts: data.idProducts,
@@ -407,7 +442,7 @@ let handleCreateComment = async (data) => {
                 lastName: data.lastName,
                 avatar: data.avatar,
                 commentContent: data.commentContent,
-                commentImage: data.commentImage,
+                commentImage: commentImage,
 
 
             })
@@ -518,6 +553,12 @@ let handleCreateComment1 = async (data) => {
         try {
 
 
+            let commentImage = ''
+            if (data.commentImage) {
+                commentImage = await uploadFile(data.commentImage)
+            }
+
+
             let result = await models.Comment.updateOne(
                 {
                     _id: data.idComment
@@ -531,7 +572,7 @@ let handleCreateComment1 = async (data) => {
                         avatar: data.avatar,
 
                         commentContent: data.commentContent,
-                        commentImage: data.commentImage,
+                        commentImage: commentImage,
                     }
 
                 }
@@ -897,6 +938,122 @@ let handleCreateLikeComment1 = async (data) => {
 
 
 
+let handleRefreshToken = async (data) => {
+    if (!data.idUsers || !data.refresh_token) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+            let result = await models.Users.find({
+                _id: data.idUsers,
+
+            })
+            console.log('refresh_token', data.refresh_token)
+            console.log('refresh_token 111', result[0].token)
+            console.log('result login la ', result, !_.isEmpty(result))
+            if (!_.isEmpty(result)) {
+                if (result[0].token === data.refresh_token) {
+
+                    let access_token = await createJWT_access_token({
+                        idUsers: result[0]._id,
+                        email: data.email,
+
+                    })
+
+                    return {
+                        errCode: 0,
+                        errMessage: "Cập nhật access_token thành công ",
+                        data: access_token
+
+                    }
+
+
+
+
+                } else {
+                    return {
+                        errCode: 2,
+                        errMessage: "refresh_token sai",
+
+
+
+                    }
+
+                }
+
+
+
+            } else {
+                return {
+                    errCode: 2,
+                    errMessage: "refresh_token sai",
+
+
+                }
+            }
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi server"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+let handleLoginOut = async (data) => {
+    if (!data.idUsers) {
+        return {
+            errCode: 1,
+            errMessage: "Missing paramater",
+        }
+    } else {
+        try {
+            // let hashPasswordFromBcrypt = await bcrypt.hashSync(data.password, salt);
+
+            let result = await models.Users.updateOne(
+                {
+                    _id: data.idUsers
+                }, {
+
+                token: "none"
+
+            })
+
+            return {
+                errCode: 0,
+                errMessage: "Update Success"
+            }
+
+
+
+
+        } catch (e) {
+            return {
+                errCode: -1,
+                errMessage: "Lỗi server"
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+
+
 module.exports = {
     handleCreateUsers: handleCreateUsers,
     handleLoginUsers: handleLoginUsers,
@@ -913,6 +1070,9 @@ module.exports = {
     handleDeleteComment1: handleDeleteComment1,
 
     handleCreateLikeComment: handleCreateLikeComment,
-    handleCreateLikeComment1: handleCreateLikeComment1
+    handleCreateLikeComment1: handleCreateLikeComment1,
+
+    handleRefreshToken: handleRefreshToken,
+    handleLoginOut: handleLoginOut
 
 }

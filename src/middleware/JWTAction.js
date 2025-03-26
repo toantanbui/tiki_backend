@@ -1,7 +1,24 @@
 require("dotenv").config();
 import jwt from "jsonwebtoken"
 
-const createJWT = (payload) => {
+const createJWT_access_token = (payload) => {
+
+    let key = process.env.JWT_SECRET;
+
+    let options = { expiresIn: 60 * 10 };
+
+    let token = null;
+    try {
+        token = jwt.sign(payload, key, options);
+    } catch (err) {
+        console.log(err)
+    }
+
+    console.log('Gia trị token: ', token)
+    return token;
+}
+
+const createJWT_refresh_token = (payload) => {
 
     let key = process.env.JWT_SECRET;
 
@@ -71,7 +88,9 @@ const checkUserJWT = async (req, res, next) => {
 
 
 module.exports = {
-    createJWT: createJWT,
+    createJWT_refresh_token: createJWT_refresh_token,
+    createJWT_access_token: createJWT_access_token,
+
     checkUserJWT: checkUserJWT
 
 }

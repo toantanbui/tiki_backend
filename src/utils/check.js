@@ -23,8 +23,8 @@ const checkEmail = async (data) => {
 const checkAdmin = async (data) => {
 
     let result = await models.Users.find({
-        email: data.email,
-        password: data.password
+
+        _id: data.idUsers
     })
 
     console.log('result login checkAdmin là  ', result)
@@ -45,22 +45,6 @@ const checkAdmin = async (data) => {
 
 
 
-const checkPassword = async (data) => {
-
-    let result = await models.Users.find({
-        email: data.email,
-        password: data.password
-    })
-
-    console.log('result login checkEmail là  ', result, !_.isEmpty(result))
-    if (!_.isEmpty(result)) {
-
-        return false;
-    }
-
-
-    return true;
-}
 
 
 
@@ -69,5 +53,5 @@ const checkPassword = async (data) => {
 
 
 module.exports = {
-    checkEmail, checkAdmin, checkPassword
+    checkEmail, checkAdmin
 }

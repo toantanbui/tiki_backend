@@ -9,6 +9,8 @@ router.post('/create-users', usersController.handleCreateUsers);
 router.post('/login-users', usersController.handleLoginUsers);
 router.put('/update-users', checkUserJWT, usersController.handleUpdateUsers);
 router.post('/get-users', checkUserJWT, usersController.handleGetUsers);
+router.post('/refresh-token', usersController.handleRefreshToken);
+router.post('/login-out', usersController.handleLoginOut);
 
 router.post('/create-orders', usersController.handleCreateOrders);
 router.post('/get-orders-idUsers', checkUserJWT, usersController.handleGetOrdersIdUsers);

@@ -9,6 +9,10 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 
+//Cho phép truy cập vào trực tiếp thư mục public bằng url
+app.use(express.static('public'));
+
+
 
 app.listen(port, () => {
     console.log(`Moi ban truy cap vao: http://localhost:${port}`)

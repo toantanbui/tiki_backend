@@ -1,7 +1,7 @@
 import models from '../models/models'
 const _ = require('lodash');
 import { createJWT } from "../middleware/JWTAction"
-
+import { uploadFile } from '../utils/upload_image'
 
 
 let handleGetAllUsers = async () => {
@@ -96,13 +96,17 @@ let handleCreateProducts = async (data) => {
         }
     } else {
         try {
+            let avatar = ''
+            if (data.avatar) {
+                avatar = await uploadFile(data.avatar)
+            }
 
             let result = await models.Products.create({
 
                 category: data.category,
                 productName: data.productName,
                 price: data.price,
-                avatar: data.avatar,
+                avatar: avatar,
                 supplier: data.supplier,
                 origin: data.origin,
                 weight: data.weight,
@@ -148,6 +152,10 @@ let handleUpdateProducts = async (data) => {
         }
     } else {
         try {
+            let avatar = ''
+            if (data.avatar) {
+                avatar = await uploadFile(data.avatar)
+            }
 
             let result = await models.Products.updateOne(
                 {
@@ -157,7 +165,7 @@ let handleUpdateProducts = async (data) => {
                 category: data.category,
                 productName: data.productName,
                 price: data.price,
-                avatar: data.avatar,
+                avatar: avatar,
                 supplier: data.supplier,
                 origin: data.origin,
                 weight: data.weight,
