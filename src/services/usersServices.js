@@ -161,8 +161,12 @@ let handleUpdateUsers = async (data) => {
         try {
             // let hashPasswordFromBcrypt = await bcrypt.hashSync(data.password, salt);
             let avatar = ''
-            if (data.avatar) {
+            if (data.avatar && data.avatar.length > 200) {
                 avatar = await uploadFile(data.avatar)
+            }
+
+            if (data.avatar && data.avatar.length < 200) {
+                avatar = data.avatar
             }
 
 

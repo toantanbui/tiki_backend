@@ -152,9 +152,15 @@ let handleUpdateProducts = async (data) => {
         }
     } else {
         try {
+
+
             let avatar = ''
-            if (data.avatar) {
+            if (data.avatar && data.avatar.length > 200) {
                 avatar = await uploadFile(data.avatar)
+            }
+
+            if (data.avatar && data.avatar.length < 200) {
+                avatar = data.avatar
             }
 
             let result = await models.Products.updateOne(

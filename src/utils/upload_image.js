@@ -4,6 +4,7 @@ var Buffer = require('buffer/').Buffer
 const port = process.env.PORT
 const { v4: uuidv4 } = require('uuid');
 const http11 = process.env.CONNECT_BACKEND
+const http22 = 'https://tiki-backend.onrender.com'
 
 
 
@@ -44,7 +45,7 @@ export const uploadFile = async (base64Image) => {
         //lưu ảnh vào code
         fs.writeFileSync(tempFilePath, buffer);
 
-        return `https://tiki-backend.onrender.com/images/${filename}.${tailname}`
+        return `${http11}/images/${filename}.${tailname}`
 
 
     } catch (error) {
