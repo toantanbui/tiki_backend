@@ -5,7 +5,7 @@ const createJWT_access_token = (payload) => {
 
     let key = process.env.JWT_SECRET;
 
-    let options = { expiresIn: 60 * 10 };
+    let options = { expiresIn: 60 };
 
     let token = null;
     try {
@@ -79,6 +79,36 @@ const checkUserJWT = async (req, res, next) => {
 }
 
 
+const checkUserJWT_refreshToken = async (req, res, next) => {
+
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        let token = req.headers.authorization.split(' ')[1];
+
+        console.log('gia tri token', token)
+        let decoded = verifyToken(token);
+        console.log('decoded', decoded)
+        if (decoded) {
+            req.user = decoded;
+            next();
+        } else {
+            return res.status(200).json({
+                errCode: 3,
+                errMessage: "Not authenticated the user",
+            })
+        }
+
+    } else {
+        return res.status(200).json({
+            errCode: 3,
+            errMessage: "Not authenticated the user",
+
+
+        })
+    }
+
+}
+
+
 
 
 
@@ -91,6 +121,7 @@ module.exports = {
     createJWT_refresh_token: createJWT_refresh_token,
     createJWT_access_token: createJWT_access_token,
 
-    checkUserJWT: checkUserJWT
+    checkUserJWT: checkUserJWT,
+    checkUserJWT_refreshToken: checkUserJWT_refreshToken
 
 }

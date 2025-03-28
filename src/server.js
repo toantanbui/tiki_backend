@@ -41,6 +41,7 @@ app.use(cors(corsOrigin));
 io.on("connection", (socket) => {
     console.log(` User connected: ${socket.id}`)
 
+
     socket.on("send-message", (data) => {
         console.log(data)
         io.sockets.to(data.roomName).emit("server-chat", {
@@ -58,6 +59,8 @@ io.on("connection", (socket) => {
         console.log('phong hien tai', socket.adapter.rooms)
 
     })
+
+
 
 
 })

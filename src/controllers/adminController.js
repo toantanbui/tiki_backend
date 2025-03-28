@@ -7,7 +7,7 @@ let handleGetAllUsers = async (req, res) => {
 
         let check = await checkAdmin(req.user);
         if (!check) {
-            return res.status(401).json({
+            return res.status(402).json({
                 errCode: 10,
                 errMessage: "Bạn không phải admin"
             })
@@ -32,7 +32,7 @@ let handleDeleteUsers = async (req, res) => {
     try {
         let check = await checkAdmin(req.user);
         if (!check) {
-            return res.status(401).json({
+            return res.status(402).json({
                 errCode: 10,
                 errMessage: "Bạn không phải admin"
             })
@@ -52,6 +52,13 @@ let handleDeleteUsers = async (req, res) => {
 
 let handleCreateProducts = async (req, res) => {
     try {
+        let check = await checkAdmin(req.user);
+        if (!check) {
+            return res.status(402).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await adminServices.handleCreateProducts(req.body)
         return res.status(200).json(data)
@@ -67,6 +74,13 @@ let handleCreateProducts = async (req, res) => {
 
 let handleUpdateProducts = async (req, res) => {
     try {
+        let check = await checkAdmin(req.user);
+        if (!check) {
+            return res.status(402).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await adminServices.handleUpdateProducts(req.body)
         return res.status(200).json(data)
@@ -82,6 +96,13 @@ let handleUpdateProducts = async (req, res) => {
 
 let handleDeleteProducts = async (req, res) => {
     try {
+        let check = await checkAdmin(req.user);
+        if (!check) {
+            return res.status(402).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await adminServices.handleDeleteProducts(req.body)
         return res.status(200).json(data)
@@ -197,7 +218,7 @@ let handleGetAllOrdersStatus = async (req, res) => {
     try {
         let check = await checkAdmin(req.user);
         if (!check) {
-            return res.status(401).json({
+            return res.status(402).json({
                 errCode: 10,
                 errMessage: "Bạn không phải admin"
             })
@@ -219,6 +240,13 @@ let handleGetAllOrdersStatus = async (req, res) => {
 
 let handleUpdateOrders = async (req, res) => {
     try {
+        let check = await checkAdmin(req.user);
+        if (!check) {
+            return res.status(402).json({
+                errCode: 10,
+                errMessage: "Bạn không phải admin"
+            })
+        }
         console.log('req.body ', req.body)
         let data = await adminServices.handleUpdateOrders(req.body)
         return res.status(200).json(data)

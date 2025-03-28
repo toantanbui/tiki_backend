@@ -91,22 +91,24 @@ let handleLoginUsers = async (data) => {
                     let access_token = await createJWT_access_token({
                         idUsers: result[0]._id,
                         email: data.email,
+                        key: 'access_token'
 
                     })
 
                     let refresh_token = await createJWT_refresh_token({
                         idUsers: result[0]._id,
                         email: data.email,
+                        key: 'refresh_token'
 
                     })
 
-
+                    let hashPasswordFromBcrypt = await bcrypt.hashSync(refresh_token, salt);
                     await models.Users.updateOne(
                         {
                             _id: result[0]._id
                         }, {
 
-                        token: refresh_token,
+                        token: hashPasswordFromBcrypt,
 
                     })
 
@@ -958,11 +960,17 @@ let handleRefreshToken = async (data) => {
             console.log('refresh_token 111', result[0].token)
             console.log('result login la ', result, !_.isEmpty(result))
             if (!_.isEmpty(result)) {
-                if (result[0].token === data.refresh_token) {
+                let check = await bcrypt.compareSync(data.refresh_token, result[0].token);
+
+                console.log('check la ', check)
+
+
+                if (check) {
 
                     let access_token = await createJWT_access_token({
                         idUsers: result[0]._id,
                         email: data.email,
+                        key: 'access_token'
 
                     })
 

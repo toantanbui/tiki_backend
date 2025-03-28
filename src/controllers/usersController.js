@@ -44,10 +44,16 @@ let handleLoginUsers = async (req, res) => {
 
 let handleUpdateUsers = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
 
-        await uploadFile(req.body.avatar)
+        }
 
-        console.log('req.body ', req.body)
+
+        console.log('req.user ', req.user)
         let data = await usersService.handleUpdateUsers(req.body)
         return res.status(200).json(data)
 
@@ -61,8 +67,16 @@ let handleUpdateUsers = async (req, res) => {
 }
 
 let handleGetUsers = async (req, res) => {
-    try {
 
+    try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
+        console.log('req.user ', req.user)
         console.log('req.body ', req.body)
         let data = await usersService.handleGetUsers(req.body)
         return res.status(200).json(data)
@@ -79,6 +93,13 @@ let handleGetUsers = async (req, res) => {
 
 let handleCreateOrders = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleCreateOrders(req.body)
         return res.status(200).json(data)
@@ -95,7 +116,13 @@ let handleCreateOrders = async (req, res) => {
 
 let handleGetOrdersIdUsers = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
 
+        }
 
         console.log('req.body ', req.body)
         let data = await usersService.handleGetOrdersIdUsers(req.body)
@@ -128,6 +155,13 @@ let handleSearchProducts = async (req, res) => {
 
 let handleCreateComment = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleCreateComment(req.body)
         return res.status(200).json(data)
@@ -143,6 +177,13 @@ let handleCreateComment = async (req, res) => {
 
 let handleDeleteComment = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleDeleteComment(req.body)
         return res.status(200).json(data)
@@ -159,6 +200,13 @@ let handleDeleteComment = async (req, res) => {
 
 let handleCreateComment1 = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleCreateComment1(req.body)
         return res.status(200).json(data)
@@ -174,6 +222,13 @@ let handleCreateComment1 = async (req, res) => {
 
 let handleDeleteComment1 = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleDeleteComment1(req.body)
         return res.status(200).json(data)
@@ -189,6 +244,13 @@ let handleDeleteComment1 = async (req, res) => {
 
 let handleCreateLikeComment = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleCreateLikeComment(req.body)
         return res.status(200).json(data)
@@ -204,6 +266,13 @@ let handleCreateLikeComment = async (req, res) => {
 
 let handleCreateLikeComment1 = async (req, res) => {
     try {
+        if (req.user.key !== 'access_token') {
+            return res.status(402).json({
+                errCode: 3,
+                errMessage: "Không phải access_token",
+            })
+
+        }
         console.log('req.body ', req.body)
         let data = await usersService.handleCreateLikeComment1(req.body)
         return res.status(200).json(data)
